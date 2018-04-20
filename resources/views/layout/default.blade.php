@@ -19,16 +19,17 @@
 </head>
 <body>
 <div class="container">
-    @include('layout.nav')
-    @include('layout._error')
+    <!--加载公共代码的头部-->
+    @include('layout._header')
     @include('layout._message')
+    @include('layout._error')
+    {{--公共不同的代码--}}
     @yield('content')
 </div>
-
 <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 <script src="/js/jquery-3.2.1.js"></script>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-<script src="js/bootstrap.js"></script>
+<script src="/js/bootstrap.js"></script>
 @yield('js')
 </body>
 </html>

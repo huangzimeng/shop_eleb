@@ -11,10 +11,6 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-
 //登录和注销
 Route::get('login', 'Login\LoginsController@create')->name('login');//登录表单
 Route::post('login', 'Login\LoginsController@store')->name('login');//登录验证
@@ -26,3 +22,6 @@ Route::post('register', 'Register\RegistersController@store')->name('register');
 Route::resource('home','Main\HomesController');
 //完善店铺信息
 Route::resource('goinfo','Main\GoinfoController');
+//修改密码
+Route::get('modify','Main\HomesController@modify')->name('modify');
+Route::post('modify','Main\HomesController@modify')->name('set_modify');

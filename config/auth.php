@@ -67,7 +67,9 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            //配置登录信息
+            'model'=>App\ShopUser::class,
+//            'model' => App\User::class,
         ],
 
         // 'users' => [

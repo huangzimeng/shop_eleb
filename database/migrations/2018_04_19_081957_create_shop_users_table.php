@@ -15,7 +15,8 @@ class CreateShopUsersTable extends Migration
     {
         Schema::create('shop_users', function (Blueprint $table) {
             $table->increments('id');//商家id
-            $table->string('phone');//商家电话
+            $table->string('name');//商家电话
+            $table->string('email');//商家邮箱
             $table->string('password');//商家密码
             $table->string('status')->default('0');//商家账号审核状态(0:审核为通过 1:审核通过)
             $table->rememberToken();

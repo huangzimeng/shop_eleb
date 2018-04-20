@@ -17,6 +17,8 @@ class CreateStoreInfosTable extends Migration
             $table->increments('id');//商家详细信息
             $table->string('shop_name')->default('');//商家店铺名称
             $table->string('shop_img')->default('');//店铺logo
+            $table->string('address')->default('');//店铺地址
+            $table->string('category_id')->default(0);//分类id
             $table->string('service_code')->default(0);//店铺的服务总评分
             $table->string('foods_code')->default(0);//店铺食物总评分
             $table->string('high_or_low')->default('');//低于还是高于周边商家

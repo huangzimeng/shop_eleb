@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Handlers\ImageUploadHandler;
+use App\ShopUser;
 use App\StoreInfo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,13 +12,17 @@ use Illuminate\Support\Facades\DB;
 //完善店铺信息控制器
 class GoinfoController extends Controller
 {
-    //添加
-    public function create(){
-        return view('goinfo.create');
+    //查看
+    public function show(Request $request,StoreInfo $goinfo){
+        return view('goinfo.show',compact('goinfo'));
     }
-    //保存信息
-    public function store(Request $request,ImageUploadHandler $uploader)
-    {
+    //修改-回显
+    public function edit(Request $request,StoreInfo $goinfo){
+        $category = DB::select('select * from categories');
+        return view('goinfo.edit',compact('goinfo','category'));
+    }
+    //修改-保存
+    public function update(Request $request,ImageUploadHandler $uploader,StoreInfo $goinfo){
         //验证
         $this->validate($request,
             [
@@ -32,6 +37,8 @@ class GoinfoController extends Controller
                 'bao' => 'required',
                 'piao' => 'required',
                 'zhun' => 'required',
+                'address'=>'required',
+                'category_id'=>'required'
             ],
             [
                 'shop_name.required' => '店铺名称不能为空!',
@@ -48,9 +55,33 @@ class GoinfoController extends Controller
                 'bao.required' => '请选择是否保标记!',
                 'piao.required' => '请选择是否票标记!',
                 'zhun.required' => '请选择是否准标记!',
+                'address.required'=>'请填写地址',
+                'required.required'=>'请选择分类'
             ]);
-        $file = $uploader->save($request->shop_img, 'shop_img', 2);
-        $filename = $file['path'];
+        if ($request->shop_img == null){//不修改头像
+            $filename = $goinfo->shop_img;
+        }else{
+            $file = $uploader->save($request->shop_img, 'shop_img', 2);
+            $filename = $file['path'];//文件路径
+        }
+        //保存数据
+        $goinfo->update([
+            'shop_name'=>$request->shop_name,
+            'start_send'=>$request->start_send,
+            'send_cost'=>$request->send_cost,
+            'notice'=>$request->notice,
+            'discount'=>$request->discount,
+            'brand'=>$request->brand,
+            'on_time'=>$request->on_time,
+            'fengniao'=>$request->fengniao,
+            'bao'=>$request->bao,
+            'piao'=>$request->piao,
+            'zhun'=>$request->zhun,
+            'address'=>$request->address,
+            'category_id'=>$request->category_id,
+            'shop_img'=>$filename,
+        ]);
+        session()->flash('success','修改成功!');
+        return redirect()->route('home.index');
     }
-
 }

@@ -22,7 +22,7 @@
     <div style="height: 20px"></div>
     <div class="row">
         <div class="col-sm-4"></div>
-        <div class="col-sm-4"><p style="font-size: 30px;font-family: 楷体;text-align: center">注册</p></div>
+        <div class="col-sm-4"><p style="font-size: 30px;font-family: 楷体;text-align: center">注册店铺</p></div>
     </div>
     @include('layout._error')
     @include('layout._message')
@@ -31,8 +31,12 @@
         <div class="col-sm-4">
             <form method="post" action="{{route('register')}}">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">电话</label>
-                    <input type="text" value="{{old('phone')}}" name="phone" class="form-control" id="exampleInputEmail1" placeholder="请输入常用手机号">
+                    <label for="exampleInputEmail1">店铺名称</label>
+                    <input type="text" value="{{old('name')}}" name="name" class="form-control" id="exampleInputEmail1" placeholder="请输入店铺名称">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">邮箱</label>
+                    <input type="text" value="{{old('email')}}" name="email" class="form-control" id="exampleInputEmail1" placeholder="请输入邮箱">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">密码</label>
@@ -41,6 +45,13 @@
                 <div class="form-group">
                     <label for="exampleInputPassword1">确认密码</label>
                     <input type="password" name="password_confirmation" class="form-control" id="exampleInputPassword1" placeholder="必须和密码一致">
+                </div>
+                <div class="form-group">
+                    <label for="captcha">验证码</label>
+                    <input id="captcha" class="form-control" name="captcha" placeholder="验证码">
+                    <p></p>
+                    <img class="thumbnail captcha" src="{{ captcha_src('flat') }}" onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码">
+
                 </div>
                 <div class="form-group">
                     已有账号?<a href="{{route('login')}}">登录</a>

@@ -3,9 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
-class ShopUser extends Model
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+class ShopUser extends Authenticatable
 {
     //
-    protected $fillable = ['phone','password'];
+    protected $fillable = ['name','email','password','status','shop_store_id'];
 }
