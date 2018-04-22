@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Login;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LoginsController extends Controller
 {
@@ -27,6 +28,10 @@ class LoginsController extends Controller
                 'captcha.required'=>'请填写验证码!',
                 'captcha.captcha'=>'验证码错误!'
             ]);
+//        $statuss = DB::table('shop_users')->where('name','=',$request->name)->first();
+//        if ($statuss != null){
+//            $status = $statuss->status;
+//        }
         //验证密码
         if (Auth::attempt(['name'=>$request->name,'password'=>$request->password,'status'=>1],$request->has('rememberMe'))){
             //成功
@@ -35,7 +40,7 @@ class LoginsController extends Controller
         }else{
             //失败
             session()->flash('danger','登录失败!名称或者密码错误!');
-            return redirect()->route('login');
+            return back()->withInput();//跳转回去
         }
     }
     //注销

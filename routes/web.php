@@ -29,3 +29,7 @@ Route::resource('goinfo','Main\GoinfoController');
 //修改密码
 Route::get('modify','Main\HomesController@modify')->name('modify');
 Route::post('modify','Main\HomesController@modify')->name('set_modify');
+//菜品分类
+Route::resource('goods_category','Main\GoodscategoryController');
+//菜单列表
+Route::resource('goods_list','Main\GoodslistsController');
