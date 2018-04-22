@@ -47,7 +47,7 @@ class RegistersController extends Controller
                 'name'=>$request->name,
                 'email'=>$request->email,
                 'password'=>bcrypt($request->password),
-                'status'=>0,
+                'status'=>1,
                 'shop_store_id'=>$id,
             ]);
         }catch (\Exception $e) {

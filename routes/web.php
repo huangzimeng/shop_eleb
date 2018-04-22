@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/',function (){
+    return view('Logins.create');
+});
+
 //登录和注销
 Route::get('login', 'Login\LoginsController@create')->name('login');//登录表单
 Route::post('login', 'Login\LoginsController@store')->name('login');//登录验证

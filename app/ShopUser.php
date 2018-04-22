@@ -8,5 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class ShopUser extends Authenticatable
 {
     //
-    protected $fillable = ['name','email','password','status','shop_store_id'];
+    protected $fillable = [
+        'name','email','password','status','shop_store_id'
+    ];
+
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 }
