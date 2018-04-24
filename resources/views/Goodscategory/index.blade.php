@@ -26,7 +26,6 @@
             @endforeach
         </table>
         @stop
-
 @section('js')
     <script type="text/javascript">
         $(function () {

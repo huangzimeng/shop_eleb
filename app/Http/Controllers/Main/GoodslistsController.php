@@ -7,8 +7,10 @@ use App\Goodslist;
 use App\Handlers\ImageUploadHandler;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 //菜品列表
 class GoodslistsController extends Controller
@@ -23,7 +25,15 @@ class GoodslistsController extends Controller
     public function store(Request $request,ImageUploadHandler $uploader){
         $this->validate($request,
             [
-                'goods_name'=>'required',
+                'goods_name'=>[
+                    'required',
+                    Rule::unique('goodslists')->where(function ($query) use($request) {
+                        $query->where([
+                            ['shop_id','=',Auth::user()->shop_store_id],
+                            ['goods_category_id','=',$request->goods_category_id]
+                            ]);
+                    })
+                ],
                 'goods_price'=>'required|numeric',
                 'description'=>'required',
                 'tips'=>'required',
@@ -31,27 +41,19 @@ class GoodslistsController extends Controller
             ],
             [
                 'goods_name.required'=>'请填写名称!',
+                'goods_name.unique'=>'名称已经存在!',
                 'goods_price.required'=>'请填写价格!',
                 'description.required'=>'请填写描述!',
                 'tips.required'=>'请填写提示!',
                 'goods_img.required'=>'请上传图片!',
             ]);
-        //保存图片路径
-        $upload = $uploader->save($request->goods_img,'goods_img',0);
-        $filename=$upload['path'];
-        //判断名称在当前分类下不能同名
-        $rs = DB::table('goodslists')->where('shop_id','=',Auth::user()->shop_store_id)->where('goods_category_id',$request->goods_category_id)->where('goods_name','=',$request->goods_name)->get();
-        if ($rs->first()!=null){//查询到数据,表示名称已经存在
-            session()->flash('danger','名称已经存在!');
-            return redirect()->back()->withInput();
-        }
         //保存
         Goodslist::create([
             'goods_name'=>$request->goods_name,
             'goods_price'=>$request->goods_price,
             'description'=>$request->description,
             'tips'=>$request->tips,
-            'goods_img'=>$filename,
+            'goods_img'=>$request->goods_img,
             'goods_category_id'=>$request->goods_category_id,
             'shop_id'=>Auth::user()->shop_store_id,
         ]);
@@ -72,13 +74,22 @@ class GoodslistsController extends Controller
     public function update(Request $request,Goodslist $goods_list,ImageUploadHandler $uploader){
         $this->validate($request,
             [
-                'goods_name'=>'required',
+                'goods_name'=>[
+                    'required',
+                    Rule::unique('goodslists')->ignore($goods_list->id)->where(function ($query) use($request) {
+                        $query->where([
+                            ['shop_id','=',Auth::user()->shop_store_id],
+                            ['goods_category_id','=',$request->goods_category_id]
+                        ]);
+                    })
+                ],
                 'goods_price'=>'required|numeric',
                 'description'=>'required',
                 'tips'=>'required',
             ],
             [
                 'goods_name.required'=>'请填写名称!',
+                'goods_name.unique'=>'名称已经存在!',
                 'goods_price.required'=>'请填写价格!',
                 'description.required'=>'请填写描述!',
                 'tips.required'=>'请填写提示!',
@@ -87,8 +98,7 @@ class GoodslistsController extends Controller
         if ($request->goods_img == null){
             $filename = $goods_list->goods_img;
         }else{
-            $a = $uploader->save($request->goods_img,'goods_img','0');
-            $filename = $a['path'];
+            $filename = $request->goods_img;
         }
         $goods_category_id = $goods_list->goods_category_id;
         //判断名称在当前分类下不能同名

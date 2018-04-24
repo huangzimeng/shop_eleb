@@ -33,3 +33,26 @@ Route::post('modify','Main\HomesController@modify')->name('set_modify');
 Route::resource('goods_category','Main\GoodscategoryController');
 //菜单列表
 Route::resource('goods_list','Main\GoodslistsController');
+//webuploader文件上传
+Route::post('/upload','Main\UploaderController@upload');
+//文件字符串测试
+//Route::get('/oss', function()
+//{
+//    $client = App::make('aliyun-oss');
+//    $client->putObject(getenv('OSS_BUCKET'), "1.txt", "你好!");
+//    $result = $client->getObject(getenv('OSS_BUCKET'), "1.txt");
+//    echo $result;
+//});
+
+//文件上传测试
+//Route::get('/oss', function()
+//{
+//    try{
+//        $client = App::make('aliyun-oss');
+//        //D:\www\shop_eleb\public\uploads\images\goods_img\201804\22\0_1524386504_2uUdPOb5b8.jpg
+//        $client->uploadFile(getenv('OSS_BUCKET'), 'public\uploads\images\goods_img\201804\22\0_1524386504_2uUdPOb5b8.jpg','D:\www\shop_eleb\public\uploads\images\goods_img\201804\22\0_1524386504_2uUdPOb5b8.jpg');
+//        echo "上传成功!";
+//    } catch(\OSS\Core\OssException $e) {
+//        printf($e->getMessage() . "\n");
+//    }
+//});

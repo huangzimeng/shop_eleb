@@ -7,7 +7,9 @@ use App\ShopUser;
 use App\StoreInfo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 //完善店铺信息控制器
 class GoinfoController extends Controller
@@ -61,8 +63,7 @@ class GoinfoController extends Controller
         if ($request->shop_img == null){//不修改头像
             $filename = $goinfo->shop_img;
         }else{
-            $file = $uploader->save($request->shop_img, 'shop_img', 2);
-            $filename = $file['path'];//文件路径
+            $filename = $request->shop_img;
         }
         //保存数据
         $goinfo->update([

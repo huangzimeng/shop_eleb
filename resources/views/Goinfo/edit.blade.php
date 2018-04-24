@@ -3,7 +3,8 @@
 @section('title','完善店铺信息')
 
 @section('content')
-    <form method="post" action="{{route('goinfo.update',['storeInfo'=>$goinfo])}}" enctype="multipart/form-data">
+    <link rel="stylesheet" type="text/css" href="/webuploader/webuploader.css">
+    <form method="post" action="{{route('goinfo.update',['storeInfo'=>$goinfo])}}">
         <div class="">
             <div class="form-group">
                 <label for="exampleInputEmail1">店铺名称</label>
@@ -30,8 +31,17 @@
                 <input type="text" name="address" value="{{$goinfo->address}}" class="form-control" id="exampleInputEmail1">
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">店铺图片</label>
-                <input type="file" name="shop_img">
+                <input type="hidden" name="shop_img" value="" id="myinput">
+            </div>
+            <div class="form-group">
+                <img src="" width="80px" id="myimg" alt="">
+            </div>
+            <div class="form-group">
+                <div id="uploader-demo">
+                    <!--用来存放item-->
+                    <div id="fileList" class="uploader-list"></div>
+                    <div id="filePicker">选择图片</div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">当前图片</label>
@@ -81,3 +91,37 @@
         {{csrf_field()}}
     </form>
 @stop
+
+@section('js')
+    <script type="text/javascript" src="/webuploader/webuploader.js"></script>
+    <script>
+        var uploader = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: '/webuploader/Uploader.swf',
+            // 文件接收服务端。
+            server: '/upload',
+
+            formData:{'_token':"{{csrf_token()}}"},
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#filePicker',
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            }
+        });
+
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on( 'uploadSuccess', function( file,response ) {
+            //回显到页面
+            var url = response.url;
+            $('#myimg').attr('src',url);
+            //将地址写到页面表单
+            $('#myinput').val(url);
+        });
+    </script>
+    @stop

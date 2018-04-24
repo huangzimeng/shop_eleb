@@ -21,12 +21,16 @@ class GoodscategoryController extends Controller
     public function store(Request $request){
         $this->validate($request,
             [
-                'name'=>'required|unique:goodscategories',
+                'name'=>[
+                    'required',
+                    Rule::unique('goodscategories')->where('store_id',Auth::user()->shop_store_id),
+                ],
                 'description'=>'required',
             ],
             [
                 'name.required'=>'名称不能为空!',
-                'description.required'=>'描述不能为空'
+                'name.unique'=>'名称已经存在!',
+                'description.required'=>'描述不能为空',
             ]);
         $store_id = Auth::user()->shop_store_id;   //当前店铺id
         if ($request->is_select){
@@ -44,7 +48,6 @@ class GoodscategoryController extends Controller
         if ($request->is_select){
             DB::table('goodscategories')->where('id','<>',$goodscategory->id)->where('store_id','=',$store_id)->update(['is_select'=>0]);
         }
-
         session()->flash('success','添加成功!');
         return redirect()->route('goods_category.index');
     }
@@ -68,7 +71,7 @@ class GoodscategoryController extends Controller
             [
                 'name'=>[
                     'required',
-                    Rule::unique('goodscategories')->ignore($goods_category->id),
+                    Rule::unique('goodscategories')->ignore($goods_category->id)->where('store_id',Auth::user()->shop_store_id),
                     ],
                 'description'=>'required',
             ],
