@@ -11,6 +11,7 @@
                         <p><a href="{{route('goods_category.index')}}">查看我的菜品分类</a></p>
                         <p><a href="{{route('goods_list.index')}}">查看我的菜品列表</a></p>
                         <p><a href="{{route('activity.index')}}">查看活动列表</a></p>
+                        <p><a href="#">查看订单列表</a></p>
                     </div>
                 </div>
             </div>

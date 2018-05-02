@@ -100,13 +100,6 @@ class GoodslistsController extends Controller
         }else{
             $filename = $request->goods_img;
         }
-//        $goods_category_id = $goods_list->goods_category_id;
-//        //判断名称在当前分类下不能同名
-//        $rs = DB::table('goodslists')->where('shop_id','=',Auth::user()->shop_store_id)->where('goods_category_id',$goods_category_id)->where('goods_name','=',$request->goods_name)->where('id','<>',$goods_list->id)->get();
-//        if ($rs->first()!=null){//查询到数据,表示名称已经存在
-//            session()->flash('danger','名称已经存在!');
-//            return redirect()->back()->withInput();
-//        }
         //保存
         $goods_list->update([
             'goods_name'=>$request->goods_name,

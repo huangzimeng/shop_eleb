@@ -37,8 +37,7 @@ class HomesController extends Controller
             //获取旧密码和新密码
             $oldpassword = $request->input('oldpwd');
             $newpassword = $request->input('re_password');
-            $res = DB::table('shop_users')->where('id',$id)->select('password')->first();
-            if(!Hash::check($oldpassword, $res->password)){
+            if(!Hash::check($oldpassword, Auth::user()->password)){
                 session()->flash('danger','旧密码输入错误!');
                 return redirect()->route('modify');
                 exit;//原密码不对
