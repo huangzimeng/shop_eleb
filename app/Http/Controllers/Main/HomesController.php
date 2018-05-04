@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Hash;
 
 class HomesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth',[
+            'except'=>[]//排除不需要验证的功能
+        ]);
+    }
+    //首页
     public function index(){
         $id=Auth::user()->shop_store_id;
         $storeinfo=StoreInfo::find($id);

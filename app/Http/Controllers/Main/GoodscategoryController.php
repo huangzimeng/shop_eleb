@@ -13,6 +13,12 @@ use Illuminate\Validation\Rule;
 //菜品分类控制器
 class GoodscategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth',[
+            'except'=>[]//排除不需要验证的功能
+        ]);
+    }
     //添加分类
     public function create(){
         return view('Goodscategory.create');
@@ -102,10 +108,6 @@ class GoodscategoryController extends Controller
     }
     //删除
     public function destroy(Goodscategory $goods_category){
-//        $rs = DB::table('goodscategories')->where('goods_category_id',$goods_category->id)->where('shop_id',Auth::user()->shop_store_id);
-//        if ($rs->first()!=null){
-//            echo 'danger';
-//        }else{
             $goods_category->delete();
             echo "success";
 

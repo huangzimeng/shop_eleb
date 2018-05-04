@@ -39,3 +39,13 @@ Route::post('/upload','Main\UploaderController@upload');
 Route::get('/activity','Main\ActivityController@index')->name('activity.index');
 //查看活动详情
 Route::get('/activity/{activity}','Main\ActivityController@show')->name('activity.show');
+//查看订单列表
+Route::get('/order','Main\OrderController@index')->name('order');
+//查看订单
+Route::get('/order/{order}','Main\OrderController@show')->name('order.show');
+//处理订单
+Route::get('/orders/{deal}','Main\OrderController@deal')->name('orders.deal');//发货
+Route::get('/orderss/{cancel}','Main\OrderController@cancel')->name('orders.cancel');//取消
+//统计
+Route::get('/order_count','Main\OrderController@count')->name('order.count');//订单
+Route::get('/goods_count','Main\GoodslistsController@count')->name('goods.count');//菜品

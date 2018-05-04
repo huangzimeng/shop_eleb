@@ -15,6 +15,12 @@ use Illuminate\Validation\Rule;
 //菜品列表
 class GoodslistsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth',[
+            'except'=>[]//排除不需要验证的功能
+        ]);
+    }
     //添加
     public function create(){
         //获取当前店铺的分类
@@ -66,12 +72,12 @@ class GoodslistsController extends Controller
         return view('goodslists.index',compact('goodslists'));
     }
     //编辑-回显
-    public function edit(Request $request,Goodslist $goods_list){
+    public function edit(Goodslist $goods_list){
         $goodscategory = Goodscategory::all();
         return view('goodslists.edit',compact('goods_list','goodscategory'));
     }
     //编辑-保存
-    public function update(Request $request,Goodslist $goods_list,ImageUploadHandler $uploader){
+    public function update(Request $request,Goodslist $goods_list){
         $this->validate($request,
             [
                 'goods_name'=>[
@@ -117,5 +123,71 @@ class GoodslistsController extends Controller
     public function destroy(Goodslist $goods_list){
         $goods_list->delete();
         echo "success";
+    }
+    //菜品销量统计
+    public function count(Request $request){
+        //查询当天的统计
+        $shop_id = Auth::user()->shop_store_id;//店铺id
+        $day1 = date('Y-m-d')." 00:00:00";
+        $day2 = date('Y-m-d')." 23:59:59";
+        $day = DB::select("SELECT SUM(amount) as num,order_goods.goods_name
+FROM orders
+JOIN order_goods ON orders.id=order_goods.order_id
+WHERE orders.shop_id='{$shop_id}' AND orders.created_at>'{$day1}' AND orders.created_at<'{$day2}'
+GROUP BY order_goods.goods_name
+ORDER BY num DESC");
+
+        $day_total = DB::select("SELECT SUM(amount) as num
+FROM orders
+JOIN order_goods ON orders.id=order_goods.order_id
+WHERE orders.shop_id='{$shop_id}' AND orders.created_at>'{$day1}' AND orders.created_at<'{$day2}'");//当天总计
+
+        //查询当月的统计
+        $month1 = date('Y-m')."-01 00:00:00";//第一天
+        $month2 = date('Y-m-t')." 23:59:59";//最后一天
+        $month = DB::select("SELECT SUM(amount) as num,order_goods.goods_name
+FROM orders
+JOIN order_goods ON orders.id=order_goods.order_id
+WHERE orders.shop_id='{$shop_id}' AND orders.created_at>'{$month1}' AND orders.created_at<'{$month2}'
+GROUP BY order_goods.goods_name
+ORDER BY num DESC");//当月总计
+        $month_total = DB::select("SELECT SUM(amount) as num
+FROM orders
+JOIN order_goods ON orders.id=order_goods.order_id
+WHERE orders.shop_id='{$shop_id}' AND orders.created_at>'{$month1}' AND orders.created_at<'{$month2}'");
+
+        //查询累计的统计
+        $all = DB::select("SELECT SUM(amount) as num,order_goods.goods_name
+FROM orders
+JOIN order_goods ON orders.id=order_goods.order_id
+WHERE orders.shop_id='{$shop_id}'
+GROUP BY order_goods.goods_name
+ORDER BY num DESC");
+        $all_total = DB::select("SELECT SUM(amount) as num
+FROM orders
+JOIN order_goods ON orders.id=order_goods.order_id
+WHERE orders.shop_id='{$shop_id}'");
+
+        //按动态条件查询
+        $start = $request->start_time??$day1;//开始时间
+        $end = $request->end_time??$day2;//结束时间
+        if ($start && $end){
+            if ($start == $end){
+                $end = $end." 23:59:59";
+            }
+            $counts = DB::select("SELECT SUM(amount) as num,order_goods.goods_name
+FROM orders
+JOIN order_goods ON orders.id=order_goods.order_id
+WHERE orders.shop_id='{$shop_id}' AND orders.created_at>'{$start}' AND orders.created_at<'{$end}'
+GROUP BY order_goods.goods_name
+ORDER BY num DESC");
+
+            $counts_total = DB::select("SELECT SUM(amount) as num
+FROM orders
+JOIN order_goods ON orders.id=order_goods.order_id
+WHERE orders.shop_id='{$shop_id}' AND orders.created_at>'{$start}' AND orders.created_at<'{$end}'");//当天总计
+        }
+
+        return view("Count.goodscount",compact('day','month','all','counts','day_total','month_total','all_total','counts_total'));
     }
 }

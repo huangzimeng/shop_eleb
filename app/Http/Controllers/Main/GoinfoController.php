@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Storage;
 //完善店铺信息控制器
 class GoinfoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth',[
+            'except'=>[]//排除不需要验证的功能
+        ]);
+    }
     //查看
     public function show(Request $request,StoreInfo $goinfo){
         return view('goinfo.show',compact('goinfo'));
