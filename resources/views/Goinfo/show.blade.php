@@ -19,6 +19,10 @@
                 <td>{{$goinfo->address}}</td>
             </tr>
             <tr>
+                <td>店铺邮箱:&emsp;</td>
+                <td>{{$goinfo->email}}</td>
+            </tr>
+            <tr>
                 <td>是否是品牌:&emsp;</td>
                 <td>@if($goinfo->band) √ @else × @endif </td>
             </tr>

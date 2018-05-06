@@ -14,6 +14,9 @@
                         <p><a href="{{route('order')}}">查看订单列表</a></p>
                         <p><a href="{{route('order.count')}}">查看订单统计</a></p>
                         <p><a href="{{route('goods.count')}}">查看菜品统计</a></p>
+                        @if($num > 0)
+                        <p><a href="{{route('show_prize')}}">查看抽奖活动</a></p>
+                        @endif
                     </div>
                 </div>
             </div>

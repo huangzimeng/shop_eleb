@@ -23,6 +23,10 @@
                 <input type="text" name="notice" value="{{$goinfo->notice}}" class="form-control" id="exampleInputEmail1">
             </div>
             <div class="form-group">
+                <label for="exampleInputEmail1">邮箱</label>
+                <input type="text" name="email" value="{{$goinfo->email}}" class="form-control" id="exampleInputEmail1">
+            </div>
+            <div class="form-group">
                 <label for="exampleInputEmail1">优惠信息</label>
                 <input type="text" name="discount" value="{{$goinfo->discount}}" class="form-control" id="exampleInputEmail1">
             </div>

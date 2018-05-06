@@ -34,6 +34,7 @@ class CreateStoreInfosTable extends Migration
             $table->string('estimate_time')->default(0);//预计时间
             $table->string('notice')->default('');//店铺公告
             $table->string('discount')->default('');//优惠信息
+            $table->string('email');//邮箱
             $table->timestamps();
         });
     }

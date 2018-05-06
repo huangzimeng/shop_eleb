@@ -22,7 +22,10 @@ class HomesController extends Controller
     public function index(){
         $id=Auth::user()->shop_store_id;
         $storeinfo=StoreInfo::find($id);
-        return view('Home.index',compact('storeinfo'));
+        //判断是否有抽奖活动
+        $rs = DB::select("SELECT count(*) as num FROM enents");
+        $num = $rs[0]->num;
+        return view('Home.index',compact('storeinfo','num'));
     }
     //修改密码-表单展示
     public function modify(Request $request){

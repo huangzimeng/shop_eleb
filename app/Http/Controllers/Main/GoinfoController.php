@@ -46,10 +46,12 @@ class GoinfoController extends Controller
                 'piao' => 'required',
                 'zhun' => 'required',
                 'address'=>'required',
+                'email'=>'required',
                 'category_id'=>'required'
             ],
             [
                 'shop_name.required' => '店铺名称不能为空!',
+                'email.required' => '邮箱不能为空!',
                 'shop_name.min' => '店铺名称不能少于4个字符!',
                 'start_send.required' => '起送金额不能为空!',
                 'start_send.numeric' => '起送金额必须为数字!',
@@ -86,6 +88,7 @@ class GoinfoController extends Controller
             'zhun'=>$request->zhun,
             'address'=>$request->address,
             'category_id'=>$request->category_id,
+            'email'=>$request->email,
             'shop_img'=>$filename,
         ]);
         session()->flash('success','修改成功!');

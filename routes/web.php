@@ -49,3 +49,10 @@ Route::get('/orderss/{cancel}','Main\OrderController@cancel')->name('orders.canc
 //统计
 Route::get('/order_count','Main\OrderController@count')->name('order.count');//订单
 Route::get('/goods_count','Main\GoodslistsController@count')->name('goods.count');//菜品
+//抽奖
+Route::get('/show_prize','Main\PrizeController@show_prize')->name('show_prize');
+//报名抽奖
+Route::get('/signup/{signup}','Main\PrizeController@signup')->name('signup');
+//查看中奖名单
+Route::get('/show_members/{show_members}','Main\PrizeController@show_members')->name('show_members');
+

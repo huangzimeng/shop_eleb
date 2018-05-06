@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Main;
 
 use App\Order;
+use App\Sms;
+use App\Smssend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -56,9 +58,13 @@ class Ordercontroller extends Controller
             return redirect()->route('order');
         }else{
             //发货
-            DB::table('orders')->where('id',$deal->id)->update(['order_status'=>2]);
-            session()->flash('success','已发货!');
-            return redirect()->route('order');
+            $a = Smssend::Smssend($deal->tel,$deal->name);
+            if ($a->Message == "OK"){
+                DB::table('orders')->where('id',$deal->id)->update(['order_status'=>2]);
+                session()->flash('success','已发货,已发送短信通知对方!');
+                //发送短信提醒
+                return redirect()->route('order');
+            }
         }
     }
     //取消 发货
