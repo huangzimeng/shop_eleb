@@ -27,24 +27,13 @@ class Ordercontroller extends Controller
             $detail_address = $order->provence.$order->city.$order->area.$order->detail_address;
             $order->address = $detail_address;
         }
-//        foreach ($orders as $order){
-//            $goods = DB::table('order_goods')->where('order_id',$order->id)->get();
-////            dd($goods);
-//            foreach ($goods as $good){
-////                dd($good->goods_name);
-//                $order->goods_name = $good->goods_name;
-//                $order->goods_img = $good->goods_img;
-//                $order->amount = $good->amount;
-//                $order->goods_price = $good->goods_price;
-//            }
-//        }
-        return view('Order.index',compact('orders'));
+        return view('order.index',compact('orders'));
     }
     //查看 详情
     public function show(Order $order){
         //商品id  $order->id
         $goods = DB::table('order_goods')->where('order_id',$order->id)->get();
-        return view('Order.show',compact('goods'));
+        return view('order.show',compact('goods'));
     }
     //确认 发货
     public function deal(Order $deal){
@@ -108,7 +97,7 @@ class Ordercontroller extends Controller
             $month = DB::select("select count(*) as num from orders where shop_id='{$shop_id}' AND order_birth_time BETWEEN '{$month1}' AND '{$month2}'");
             $all = DB::select("select count(*) as num from orders where shop_id='{$shop_id}'");
 
-            return view('Count.ordercount',compact('count','day','month','all'));
+            return view('count.ordercount',compact('count','day','month','all'));
         }
     }
 }

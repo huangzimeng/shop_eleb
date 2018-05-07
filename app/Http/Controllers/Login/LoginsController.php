@@ -11,7 +11,7 @@ class LoginsController extends Controller
 {
     //登录表单页
     public function create(){
-        return view('Logins.create');
+        return view('logins.create');
     }
     //验证数据
     public function store(Request $request){
@@ -28,10 +28,6 @@ class LoginsController extends Controller
                 'captcha.required'=>'请填写验证码!',
                 'captcha.captcha'=>'验证码错误!'
             ]);
-//        $statuss = DB::table('shop_users')->where('name','=',$request->name)->first();
-//        if ($statuss != null){
-//            $status = $statuss->status;
-//        }
         //验证密码
         if (Auth::attempt(['name'=>$request->name,'password'=>$request->password,'status'=>1],$request->has('rememberMe'))){
             //成功

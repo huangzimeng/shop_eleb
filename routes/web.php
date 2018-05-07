@@ -12,7 +12,7 @@
 */
 
 Route::get('/',function (){
-    return view('Logins.create');
+    return view('logins.create');
 });
 
 //登录和注销

@@ -188,6 +188,6 @@ JOIN order_goods ON orders.id=order_goods.order_id
 WHERE orders.shop_id='{$shop_id}' AND orders.created_at>'{$start}' AND orders.created_at<'{$end}'");//当天总计
         }
 
-        return view("Count.goodscount",compact('day','month','all','counts','day_total','month_total','all_total','counts_total'));
+        return view("count.goodscount",compact('day','month','all','counts','day_total','month_total','all_total','counts_total'));
     }
 }

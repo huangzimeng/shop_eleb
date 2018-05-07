@@ -25,7 +25,7 @@ class HomesController extends Controller
         //判断是否有抽奖活动
         $rs = DB::select("SELECT count(*) as num FROM enents");
         $num = $rs[0]->num;
-        return view('Home.index',compact('storeinfo','num'));
+        return view('home.index',compact('storeinfo','num'));
     }
     //修改密码-表单展示
     public function modify(Request $request){

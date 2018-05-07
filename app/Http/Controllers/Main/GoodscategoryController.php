@@ -21,7 +21,7 @@ class GoodscategoryController extends Controller
     }
     //添加分类
     public function create(){
-        return view('Goodscategory.create');
+        return view('goodscategory.create');
     }
     //保存
     public function store(Request $request){
@@ -65,11 +65,11 @@ class GoodscategoryController extends Controller
         if ($rs == 1) {
             DB::table('goodscategories')->update(['is_select'=>1]);
         }
-        return view('Goodscategory.index',compact('goodscategorys'));
+        return view('goodscategory.index',compact('goodscategorys'));
     }
     //编辑-回显
     public function edit(Request$request,Goodscategory $goods_category){
-        return view('Goodscategory.edit',compact('goods_category'));
+        return view('goodscategory.edit',compact('goods_category'));
     }
     //编辑-保存
     public function update(Request $request,Goodscategory $goods_category){

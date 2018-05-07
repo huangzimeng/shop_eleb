@@ -13,19 +13,16 @@ class PrizeController extends Controller
 {
     //查看抽奖
     public function show_prize(){
-//        $data = DB::table('enents')->where('is_prize',0)->get();
-//        dd($data);
         $enents = DB::table('enents')->get();
-        return view('Prize.index',compact('enents'));
+        return view('prize.index',compact('enents'));
     }
     //查看详情
     public function show(enent $show){
-//        $show;//活动内容
         $num = DB::table('event_members')
             ->select(DB::raw('count(*) as num'))
             ->where('events_id',$show->id)
             ->first();
-        return view('Prize.showw',compact('show','num'));
+        return view('prize.showw',compact('show','num'));
     }
     //查看中奖名单
     public function show_members(enent $show_members){
@@ -42,7 +39,7 @@ class PrizeController extends Controller
             $b = DB::table('store_infos')->where('id',$value->member_id)->first();
             $value->member_id = $b->shop_name;
         }
-        return view('Prize.show',compact('title','data'));
+        return view('prize.show',compact('title','data'));
     }
     //立即报名
     public function signup(enent $signup){
