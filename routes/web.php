@@ -55,4 +55,6 @@ Route::get('/show_prize','Main\PrizeController@show_prize')->name('show_prize');
 Route::get('/signup/{signup}','Main\PrizeController@signup')->name('signup');
 //查看中奖名单
 Route::get('/show_members/{show_members}','Main\PrizeController@show_members')->name('show_members');
+//查看抽奖活动详情
+Route::get('/show/{show}','Main\PrizeController@show')->name('show');
 

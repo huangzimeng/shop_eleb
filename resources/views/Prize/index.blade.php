@@ -8,7 +8,6 @@
             <tr>
                 <td>ID</td>
                 <td>标题</td>
-                <td>内容</td>
                 <td>开始报名时间</td>
                 <td>结束报名时间</td>
                 <td>开奖时间</td>
@@ -20,18 +19,19 @@
                 <tr data-id="{{$enent->id}}">
                     <td>{{$enent->id}}</td>
                     <td>{{$enent->title}}</td>
-                    <td>{{$enent->contents}}</td>
+                    {{--<td>{{$enent->contents}}</td>--}}
                     <td>{{$enent->signup_start}}</td>
                     <td>{{$enent->signup_end}}</td>
                     <td>{{$enent->prize_date}}</td>
                     <td>{{$enent->signup_num}}</td>
                     <td>{{$enent->is_prize==0?"×":"√"}}</td>
                     <td>
-                        @if($enent->is_prize)
-                            <a href="{{route('show_members',['enent'=>$enent->id])}}" class="btn btn-sm btn-success">查看中奖名单</a>
-                        @else
-                            <a href="{{route('signup',['enent'=>$enent->id])}}" class="btn btn-sm btn-primary">立即报名</a>
-                        @endif
+                        {{--@if($enent->is_prize)--}}
+                            {{--<a href="{{route('show_members',['enent'=>$enent->id])}}" class="btn btn-sm btn-success">查看中奖名单</a>--}}
+                        {{--@else--}}
+                            {{--<a href="{{route('signup',['enent'=>$enent->id])}}" class="btn btn-sm btn-primary">立即报名</a>--}}
+                        {{--@endif--}}
+                        <a href="{{route('show',['enent'=>$enent->id])}}" class="btn btn-sm btn-primary">查看详情</a>
                     </td>
                 </tr>
             @endforeach
