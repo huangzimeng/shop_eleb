@@ -76,7 +76,7 @@ class OrderController extends Controller
             $month2 = date('Y-m-t')." 23:59:59";//最后一天
             $month = DB::select("select count(*) as num from orders where shop_id='{$shop_id}' AND order_birth_time BETWEEN '{$month1}' AND '{$month2}'");
             $all = DB::select("select count(*) as num from orders where shop_id='{$shop_id}'");
-            return view('Count.ordercount',compact('count','day','month','all'));
+            return view('count.ordercount',compact('count','day','month','all'));
         }else{
             //判断可以允许查询每天的数据
             if ($request->start_time == $request->end_time){
