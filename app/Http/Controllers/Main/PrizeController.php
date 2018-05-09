@@ -43,6 +43,28 @@ class PrizeController extends Controller
     }
     //立即报名
     public function signup(enent $signup){
+//        $redis = new \Redis();
+//        //将活动人数限制,保存到redis(添加活动时) 'signup_num_'.$event->id = 10
+//        //报名
+//        //获取当前活动的人数限制
+//        $limit = $redis->get('signup_num_'.$signup->id);
+//        //从redis去判断报名人数
+//        /*$num = $redis->get('num_'.$event->id);
+//        if($num >= $limit){
+//            echo '报名人数已满';exit;
+//        }
+//        $redis->incr('num_'.$event->id);*/
+//
+//        $num = $redis->incr('num_'.$signup->id);
+//        if($num > $limit){
+//            $redis->decr('num_'.$signup->id);
+//            echo '报名人数已满';exit;
+//        }
+//        //保存报名信息[ 1 ,6 ,8 ]
+//        //$redis->hSet('');
+//        $redis->sAdd('members_'.$signup->id,Auth::user()->id);
+        //同步回数据库(第二条凌晨3:00)
+
         //dd($signup->id);//活动id
         //判断报名人数是否超出限制
         $a = DB::select("SELECT count(*) as num FROM event_members where events_id='{$signup->id}'");//已经报名的人数
@@ -50,13 +72,11 @@ class PrizeController extends Controller
         if ( $a[0]->num >= $signup->signup_num){
             session()->flash('danger','报名失败,人数已满!');
             return redirect()->route('show_prize');
-            die();
         }
         //已经开奖不能报名
         if ($signup->is_prize){
             session()->flash('danger','报名失败,已经开奖,不能报名!!');
             return redirect()->route('show_prize');
-            die();
         }
 
         $ad = DB::table('shop_users')->where('id',Auth::user()->id)->select('shop_store_id')->first();
@@ -65,7 +85,6 @@ class PrizeController extends Controller
         if ($rse[0]->num > 0){
             session()->flash('danger','报名失败,您已经报名,不能再报名!!');
             return redirect()->route('show_prize');
-            die();
         }
         //报名
         DB::table('event_members')->insert(
