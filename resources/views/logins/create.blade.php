@@ -49,6 +49,9 @@
                         <input type="checkbox" name="rememberMe">记住我
                     </label>
                 </div>
+                <div class="form-group">
+                    没有账号?<a href="{{route('register')}}">注册</a>
+                </div>
                 <div style="text-align: center">
                     <button type="submit" class="btn btn-block btn-primary">登录</button>
                 </div>
